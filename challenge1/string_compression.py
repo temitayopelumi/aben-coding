@@ -39,3 +39,6 @@ def compress(chars):
 assert compress("bbcceeee") == "b2c2e4" # returns true
 assert compress("aaabbbcccaaa") == "a3b3c3a3" #returns true
 assert compress("a") == "a" #return true
+
+
+#time complexity. => 0(n)
