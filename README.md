@@ -1,29 +1,23 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Challenge one ##
 
-### What is this repository for? ###
+### Setup ###
+Navigate into folder
+```
+cd challenge1
+```
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Any of its files (test cases included) can be run with
 
-### How do I get set up? ###
+python <name of the file> 
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### First question ###
 
-### Contribution guidelines ###
+The time complexity is O(n) because  (1) for worst case scenario we will only traverse through the list once. (2) the cost of converting a list to a string is 0(n).
 
-* Writing tests
-* Code review
-* Other guidelines
 
-### Who do I talk to? ###
+### Second question ###
 
-* Repo owner or admin
-* Other community or team contact
+The time complexity is O(n) n being the nuber of Nodes in the Graph.
+
