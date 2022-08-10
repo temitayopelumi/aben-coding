@@ -77,7 +77,7 @@ class Graph:
         return set(largest)
         
 
-#TESTCASE.
+#TESTCASES.
 graph_one = Graph()
 graph_one.add_multiple_edges([(1, 2), (2, 3), (3, 5), (5, 2), (2, 1)])
 assert graph_one.identify_router() == {2}
