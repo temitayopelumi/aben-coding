@@ -1,5 +1,5 @@
 def compress(chars):
-    ans = []  # this holds the answer, a list is used because appending to a list is expensive it is O(n)^2
+    ans = []  # this holds the answer, a list is used because appending to a string is expensive. it is O(n)^2
     length = len(chars)  # length of the string
 
     # edge case: if the length of the string is less than 2 return the string
