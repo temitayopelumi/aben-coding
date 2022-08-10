@@ -34,10 +34,6 @@ class Graph:
         for edge in edges:
             self.add_edge(edge)
 
-    def print_graph(self):
-        return self.graph
-
-    
     def identify_router(self):
         # create a set to track visited nodes to avoid repeated traversing in cyclical sections
         visited = set()
