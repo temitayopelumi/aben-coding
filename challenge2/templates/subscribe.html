@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header-->
+<header class="bg-primary bg-gradient text-white">
+    <div class="container px-4 text-center" style="height: 30%">
+        <h1 class="fw-bolder">Welcome to Aben Premium</h1>
+        <p class="lead">Subscribe to premium and get 7 days free</p>
+
+        <form action="/" method="POST">
+            <input type="submit" id="checkout-button" value="Subscribe">
+        </form>
+    </div>
+</header>
+
+<section id="about">
+    <div class="container px-4">
+        <div class="row gx-4 justify-content-center">
+            <div class="col-lg-8">
+                <h2>About Aben</h2>
+                <h3>åben</h3>
+                <p class="lead">
+                    Danish: open, frank, candid
+                    Aben means open in Danish, and we’re sticklers for transparency. Adhering to data science principles
+                    since day one,
+                    Aben was founded on the idea that the data available to the largest enterprises should be
+                    democratized for all businesses to leverage.
+                    Through our proprietary data and machine learning algorithms, we have established a single truth
+                    through real-world spend across local markets,
+                    complete with recommendations, automation, and measurement for all.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content%}

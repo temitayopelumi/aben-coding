@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section>
+    <div class="product">
+        <div class="container px-4">
+            <div class="row gx-4 justify-content-center">
+                <div class="col-lg-8">
+                    {% if subscription.status == "active" or subscription.status == "trialing" %}
+                    <h4>Your subscription:</h4>
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p>status: {{ subscription.status }}</p>
+                            {% if subscription.status == "trialing" %}
+                            <p>Your trialer ends on {{ trial_ends }}</p>
+                            {% elif subscription.status == "active" %}
+                            <p>Your subscription ends on {{subscription_ends}} </p>
+                            {% endif %}
+                            <a href="{% url 'cancel_sub'%}">Cancel subscription</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+</section>
+{% endblock content%}

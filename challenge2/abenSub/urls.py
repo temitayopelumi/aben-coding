@@ -15,9 +15,25 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views 
+from django_registration.backends.one_step.views import RegistrationView
+from django_registration.forms import RegistrationForm
+from subscriptions.models import User
+class MyCustomUserForm(RegistrationForm):
+    class Meta(RegistrationForm.Meta):
+        model = User
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/register/',
+        RegistrationView.as_view(
+            form_class=MyCustomUserForm
+        ),
+        name='register',
+    ),
+
     path('auth/accounts/',include('django_registration.backends.one_step.urls')),
-    path('auth/accounts/', include('django.contrib.auth.urls')),
+    path('', include('subscriptions.urls')),
+    path('auth/login/', views.LoginView.as_view(), name='login'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
 ]
