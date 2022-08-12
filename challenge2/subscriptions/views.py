@@ -41,7 +41,7 @@ def subscriptions_page(request):
                     'trial_period_days': 7
                 },
                 customer = stripe_customer,
-                success_url='http://localhost:8000' + reverse('success'),
+                success_url='http://localhost:8000' + reverse('home'),
                 cancel_url='http://localhost:8000' + reverse('cancel'),
             )
         except Exception as e:
@@ -58,8 +58,9 @@ def subscriptions_page(request):
             product = stripe.Product.retrieve(subscription.plan.product)
             trial_ends = datetime.fromtimestamp(subscription.trial_end)
             subscription_ends = datetime.fromtimestamp(subscription.trial_end)
+            subscription_status = user.user_subscription.status
             return render(request, 'home.html', {'user': request.user, 'subscription': subscription,
-                                             'product': product, "trial_ends":trial_ends, "subscription_ends":subscription_ends  })
+                                             'product': product, "trial_ends":trial_ends, "subscription_ends":subscription_ends, "subscription_status":subscription_status  })
 
 
 def success(request):
@@ -68,6 +69,7 @@ def success(request):
 
 def cancel(request):
     return render(request, 'cancel.html')
+
 
 
 #view to cancel current subscription at end cycle.
@@ -80,11 +82,9 @@ def cancel_subscription(request):
             stripe_subscription_id,
             cancel_at_period_end=True
             )
-            user.user_subscription.status = "cancelled"
-            user.save()
         except Exception as e:
             return JsonResponse({'error': str(e)})
-        return JsonResponse({"cancelled":True})
+        return render(request, 'cancelled.html')
    
 
 
@@ -119,18 +119,18 @@ def stripe_webhook(request):
         # Get the user.
         user = User.objects.get(stripeId=stripe_customer_id)
 
-        #First_time  subscription has not been made before.
+        #recurring payments
         try:
             subscription = Subscription.objects.get(user=user)
+            subscription.status = "active"
+            subscription.save()
         except Subscription.DoesNotExist:
+            #First_time  subscription has not been made before.
             Subscription.objects.create(
                 user=user,
                 status="active",
                 stripeSubscriptionId=stripe_subscription_id,
             )
-        #recurring payments
-        subscription.status = "active"
-        subscription.save()
 
         #update the subcribed column
         user.subscribed = True
@@ -146,6 +146,24 @@ def stripe_webhook(request):
         #update the current status of subscription to cancelled.
         user = User.objects.get(stripeId = stripe_customer_id)
         user.user_subscription.status = "cancelled"
+        user.user_subscription.save()
+        
+        #update user
         user.subscribed = False
         user.save()
+
         return HttpResponse(status=200)
+
+    if event['type'] == 'customer.subscription.updated':
+        data = event['data']['object']
+        stripe_customer_id = data.get('customer')
+
+        #check if the user want's to cancel
+        if data.get('cancel_at_period_end'):
+        #update the current status of subscription to cancelled.
+            user = User.objects.get(stripeId = stripe_customer_id)
+            user.user_subscription.status = "scheduled_to_cancel"
+            user.user_subscription.save()
+            return HttpResponse(status=200)
+        return HttpResponse(status=200)
+

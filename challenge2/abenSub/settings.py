@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,8 +78,12 @@ WSGI_APPLICATION = 'abenSub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config("DB_NAME"),
+        'USER': config("DB_USER"),
+        'PASSWORD': config("DB_PASSWORD"),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -124,8 +129,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "subscriptions.User"
-STRIPE_SECRET_KEY = "sk_test_51K5JcqEexlX9H8temPNsZR9E6JZno8I0twX575GXgJBD2QT8uuNkWJg0Dp3d6V8WPidPRK5wVYBlzxvgjoMOjDkA00FggS9M8T"
-STRIPE_PUBLIC_KEY = "pk_test_51K5JcqEexlX9H8temM2IObAjvnRPmmsSLCfoDfmjwmCfMLkvJVuIM8GlUP0AWrFw1TJIfINbZ3omkhj3mzvruAP700ODL2OhW1"
+
+STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
+STRIPE_PUBLIC_KEY = config("STRIPE_PUBLIC_KEY")
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
