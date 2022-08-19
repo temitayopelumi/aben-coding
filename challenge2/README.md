@@ -1,9 +1,7 @@
-## Challenge Two ##
-
 ### Setup ###
 Navigate into folder
 ```
-cd challenge1
+cd challenge2
 ```
 Create  your Virtual Environment depending on your Os
 Pip install requirements.
